@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -\
+->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Forage</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet" m\
+edia="screen">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- [if lt IE 9]> -->
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
+    <!-- <![endif] -->
+
+
+
+    <style>
+
+      body {  padding-top: 60px; }
+
+      #map-container { height: 500px }
+            .myInfobox {
+                                  border: solid 1px black;
+                                  background-color:rgba(255, 255, 255, 0.5);
+                                  width: 280px;
+          color: #000;
+          font-family: Helvetica;
+                                  font-size: 14px;
+                                  padding: .5em 1em;
+                                  border-radius: 10px;
+                                  margin-left: -30px;
+                                  margin-top: -6px
+                        }
+    </style>
+  </head>
+<body>
+
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-4">
+      <h1>
+        <a href="/">Forage</a>
+      </h1>
+
+
+      <h4>Find a restaurant that accurately reflects your taste.</h4>
+      <br></br>
+
+<!--    <div class="form group" class="col-md-4"> -->
+
+      <h4>What do you like?</h4>
+        <form role="form" method='POST' action='/yelp_result'>
+          <div class="form-group">
+            <input type="text" name="like" class="form-control" id="like-box" placeholder="I like...tacos, Thai, chocolate">
+
+      <h4>What do you dislike?</h4>
+            <input type="text" name="dislike" class="form-control" id="dislike-box" placeholder="I dislike...long waits, hipsters">
+          </div>
+
+            <input type="submit" name="submit" class="btn btn-default" value="Search" />
+        </form>
+
+</div>
+
+      <div id="map-container" class="container-fluid">
+    </div>
+  </div>
+</div> <!-- /body -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+
+
+<script>
+        function map_init() {
+                var var_location = new google.maps.LatLng(40.4397,-79.9764);
+                setMarkers(var_map, restaurants);
+
+                var var_mapoptions = {
+                        zoom: 12,
+                        center: var_location,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        mapTypeControl: false,
+                        panControl:false,
+                        rotateControl:false,
+                        streetViewControl: false,
+                        styles:[
+                                {
+                                  "featureType": "landscape.natural",
+                                  "elementType": "geometry.fill",
+                                  "stylers": [
+                                      {
+                                          "visibility": "on"
+                                      },
+                                      {
+                                          "hue": "#1900ff"
+                                      },
+                                      {
+                                          "color": "#c0e8e8"
+                                      }
+                                  ]
+                              },
+                              {
+                                  "featureType": "road",
+                                  "elementType": "geometry",
+                                  "stylers": [
+                                      {
+                                          "lightness": 100
+                                      },
+                                      {
+                                          "visibility": "simplified"
+                                      }
+                                  ]
+                              },
+                              { 
+                                          "featureType": "road",
+                                          "elementType": "labels",
+                                          "stylers": [
+                                            {
+                                                "visibility": "off"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "featureType": "transit.line",
+                                        "elementType": "geometry",
+                                        "stylers": [
+                                            {
+                                                "visibility": "on"
+                                            },
+                                            {
+                                                "lightness": 700
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "featureType": "water",
+                                        "elementType": "all",
+                                        "stylers": [
+                                            {
+                                                "color": "#7dcdcd"
+                                            }
+                                        ]
+                                    }
+                                ]
+
+                };       
+                var var_map = new google.maps.Map(document.getElementById("map-container"), var_mapoptions);
+                var restaurants = [[u"Long John Silver's", 40.3868915, -80.0937037], [u"Denny's", 40.391255, -80.073426], [u'Pizza Hut', 40.4566455, -80.0070383], [u"Emil's Lounge", 40.408735, -79.8663507], [u"Alexion's Bar & Grill", 40.415517, -80.067534], [u'Kings Family Restaurant', 40.3877323, -80.0928745]];
+                var mappin = "Pin-icon.png"
+                var marker = new google.maps.Marker({
+                        map: var_map,
+                        draggable: false,
+                        icon: mappin,
+                        position: var_location,
+                        visible: true
+                });
+
+                var var_infobox_props = {
+       content: "<strong>Restaurant</strong><br><br>1234 Address St <br>City, PA Zip Code<br>Phone: (999) 221-5411<br><br><a href='http://www.yelp.com' target='_blank' style='color:darkblue'>Yelp site</a>"
+                        ,disableAutoPan: false
+                        ,maxWidth: 0
+                        ,pixelOffset: new google.maps.Size(-10, 0)
+                        ,zIndex: null
+                        ,boxClass: "myInfobox"
+                        ,closeBoxMargin: "2px"
+                        ,closeBoxURL: "close_sm.png"
+                        ,infoBoxClearance: new google.maps.Size(1, 1)
+                        ,visible: true
+                        ,pane: "floatPane"
+                        ,enableEventPropagation: false
+                        };
+
+                google.maps.event.addListener(marker, "click", function (e) {
+                  var_infobox.open(var_map, this);
+        });
+
+                var var_infobox = new InfoBox(var_infobox_props);
+
+                  var_infobox.open(var_map, marker);
+        }
+        // check these two functions !!!
+        function getLocations() {
+
+        $.getJSON("http://localhost:1117/zones/latlng", function (json) {
+
+        var location;
+
+
+        $.each(json.zones, function (i, item) {
+            addMarker(item.Latitude,item.Longitude);
+        });
+
+            });
+        }
+
+        function addMarker(lat,lng) {
+            marker = new google.maps.Marker({
+                      position: new google.maps.LatLng(lat,lng),
+                      map: map,
+                      icon: redImage
+                  });
+                  markersArray.push(marker);
+        }
+
+
+
+        google.maps.event.addDomListener(window, 'load', map_init);
+
+    </script>
+  </body>
+</html>

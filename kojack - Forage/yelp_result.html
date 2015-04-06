@@ -1,0 +1,111 @@
+<!-- Result HTML - return text inputted in text boxes -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -\
+->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKqq/wJuDO1PbgztTwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZmzApuDO2tbgzt/24M7f9uDO1PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZm\
+zApuDO2tbgzt/24M7f9uDO3/bgzt/2ZmuwgAAAAAAAAAAAAAAAAAAAAAqqr/Andu1Rt3ZswZAAAAAGZmzApuDO2tbgzt/24M7f9uDO3/bgzt/24M7f9\
+VVaoDAAAAAAAAAAB3ZswZbgztuG4M7f9uDO3/bgzt/24M7bhuDO2tbgzt/24M7f9uDO3/bgzt/24M7f9uDO1PAAAAAAAAAABuDO1Pbgzt/24M7f9uDO\
+3/bgzt/24M7f9uDO3/bgzt/24M7f9uDO3/bgzt/24M7f9uDO1PAAAAAAAAAAB3ZswUbgzt/24M7f9uDO3/bgztT24M7SJuDO0ibgztT24M7f9uDO3/b\
+gzt/24M7f9uDO1PAAAAAAAAAAAAAAAAbgztiW4M7f9uDO3/bgztIgAAAAAAAAAAAAAAAAAAAABuDO0ibgzt/24M7f9uDO2JAAAAAAAAAAAAAAAAAAAA\
+AG4M7f9uDO3/bgztTwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG4M7U9uDO3/bgztrQAAAAAAAAAAAAAAAAAAAABuDO3/bgzt/24M7SIAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAABuDO0ibgzt/24M7dMAAAAAAAAAAAAAAAAAAAAAbgzt/24M7f9uDO0iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbgztIm4M7f\
+9uDO3TAAAAAAAAAAAAAAAAAAAAAG4M7bhuDO3/bgztTwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG4M7U9uDO3/bgztrQAAAAAAAAAAAAAAAAAAAABuD\
+O2Jbgzt/24M7f9uDO0iAAAAAAAAAAAAAAAAAAAAAG4M7SJuDO3/bgzt/24M7YkAAAAAAAAAAAAAAAAAAAAAqqr/Am4M7a1uDO3/bgzt/24M7U9uDO0i\
+bgztIm4M7U9uDO3/bgzt/24M7a1uDO1PAAAAAAAAAAAAAAAAAAAAAAAAAABuDO1PbgztrW4M7f9uDO3/bgzt/24M7f9uDO3/bgzt/24M7a1uDO1PAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABuDO2JbgztuG4M7dNuDO3TbgztuG4M7YkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP\
+/jAAD/wQAA/4EAAOADAADABwAAjw8AAB+PAAA/zwAAP88AAD/PAAA/zwAAH48AAI8fAADAPwAA4H8AAA==" rel="icon" type="image/x-icon" \
+/>
+
+    <title>Forage Results</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet" m\
+edia="screen">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]> -->
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!--[endif]-->
+
+
+</html>
+
+</head>
+
+
+<body>
+
+
+
+  <h3>Search results for:</h3>
+  {{ text_search }}
+
+  {#  {{text_search_result.queryDebugString.split('|')[0]}}  #}
+  <br></br>
+
+  <table class = "table table-hover table-condensed">
+    <tr>
+        <th>Restaurant Name</th>
+        <th>Address</th>
+        <th>Coordinates</th>
+        <th>Reviews</th>
+        <th>Polarity Score</th>
+    </tr>
+
+    {% for value in text_search_result %}
+
+    <tr>
+
+        <td>{{ value.biz_name }}</td>
+        <td>{{ value.address }}</td>
+
+        {% for feature in value.features %}
+            <td> {{  feature.geometry.coordinates }}</td>
+        {% endfor %}
+
+        <td>{{ value.text }}</td>
+        <td>{{ value.polarity_score }}</td>
+
+    </tr>
+
+    {% endfor %}
+    
+</table>
+
+
+
+
+
+    <!-- Bootstrap core JavaScript                                                                                  
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+  </body>
+</html>
+
+
